@@ -1,0 +1,442 @@
+/* ==========================================================================
+   MDF Studio - Paper Preview & Print Engine CSS
+   Simulates physical paper in browser preview and controls @media print
+   ========================================================================== */
+
+:root {
+  --paper-width: 210mm;
+  --paper-height: 297mm;
+  --paper-margin-top: 20mm;
+  --paper-margin-bottom: 20mm;
+  --paper-margin-left: 20mm;
+  --paper-margin-right: 20mm;
+  --paper-bg: #ffffff;
+  --paper-shadow: 0 12px 36px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
+  --preview-scale: 1;
+}
+
+/* Paper Sizes */
+[data-paper-size="a4"] {
+  --paper-width: 210mm;
+  --paper-height: 297mm;
+}
+[data-paper-size="letter"] {
+  --paper-width: 8.5in;
+  --paper-height: 11in;
+}
+[data-paper-size="legal"] {
+  --paper-width: 8.5in;
+  --paper-height: 14in;
+}
+[data-paper-size="a5"] {
+  --paper-width: 148mm;
+  --paper-height: 210mm;
+}
+[data-paper-size="a3"] {
+  --paper-width: 297mm;
+  --paper-height: 420mm;
+}
+
+/* Landscape Mode overrides */
+[data-orientation="landscape"][data-paper-size="a4"] {
+  --paper-width: 297mm;
+  --paper-height: 210mm;
+}
+[data-orientation="landscape"][data-paper-size="letter"] {
+  --paper-width: 11in;
+  --paper-height: 8.5in;
+}
+[data-orientation="landscape"][data-paper-size="legal"] {
+  --paper-width: 14in;
+  --paper-height: 8.5in;
+}
+[data-orientation="landscape"][data-paper-size="a5"] {
+  --paper-width: 210mm;
+  --paper-height: 148mm;
+}
+[data-orientation="landscape"][data-paper-size="a3"] {
+  --paper-width: 420mm;
+  --paper-height: 297mm;
+}
+
+/* Margin Presets */
+[data-margins="compact"] {
+  --paper-margin-top: 12mm;
+  --paper-margin-bottom: 12mm;
+  --paper-margin-left: 14mm;
+  --paper-margin-right: 14mm;
+}
+[data-margins="normal"] {
+  --paper-margin-top: 20mm;
+  --paper-margin-bottom: 20mm;
+  --paper-margin-left: 20mm;
+  --paper-margin-right: 20mm;
+}
+[data-margins="spacious"] {
+  --paper-margin-top: 28mm;
+  --paper-margin-bottom: 28mm;
+  --paper-margin-left: 28mm;
+  --paper-margin-right: 28mm;
+}
+
+/* --------------------------------------------------------------------------
+   Preview Workspace Stage
+   -------------------------------------------------------------------------- */
+.preview-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+  padding: 40px 20px 80px 20px;
+  background-color: #0b0f17;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 24px 24px, 24px 24px;
+  overflow-y: auto;
+  overflow-x: auto;
+  transform-origin: top center;
+}
+
+.preview-scaler {
+  transform: scale(var(--preview-scale));
+  transform-origin: top center;
+  transition: transform 0.15s ease-out;
+}
+
+/* Paper Container */
+.paper-document {
+  box-sizing: border-box;
+  width: var(--paper-width);
+  min-height: var(--paper-height);
+  background: var(--paper-bg);
+  box-shadow: var(--paper-shadow);
+  border-radius: 4px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.2s ease, min-height 0.2s ease;
+}
+
+/* Header & Footer Areas */
+.document-header,
+.document-footer {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8.5pt;
+  color: #64748b;
+  font-family: inherit;
+  user-select: none;
+}
+
+.document-header {
+  padding: 12mm var(--paper-margin-right) 0 var(--paper-margin-left);
+  border-bottom: 1px solid transparent;
+}
+.document-header.has-border {
+  border-bottom-color: #e2e8f0;
+  padding-bottom: 6px;
+}
+
+.document-footer {
+  margin-top: auto;
+  padding: 0 var(--paper-margin-right) 12mm var(--paper-margin-left);
+  border-top: 1px solid transparent;
+}
+.document-footer.has-border {
+  border-top-color: #e2e8f0;
+  padding-top: 6px;
+}
+
+.header-left, .footer-left {
+  text-align: left;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.header-right, .footer-right {
+  text-align: right;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Content Area */
+.document-content {
+  box-sizing: border-box;
+  width: 100%;
+  flex: 1;
+  padding-top: var(--paper-margin-top);
+  padding-bottom: var(--paper-margin-bottom);
+  padding-left: var(--paper-margin-left);
+  padding-right: var(--paper-margin-right);
+  color: #1e293b;
+  line-height: var(--line-height, 1.6);
+  font-size: var(--base-font-size, 11pt);
+}
+
+/* Cover Page Component */
+.cover-page {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: calc(var(--paper-height) - 40mm);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40mm 20mm;
+  page-break-after: always;
+  break-after: page;
+}
+
+.cover-page.style-modern {
+  align-items: flex-start;
+  text-align: left;
+  position: relative;
+  border-left: 6px solid #4f46e5;
+  padding-left: 25mm;
+}
+
+.cover-page.style-executive {
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 40mm 30mm;
+}
+
+.cover-page .cover-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-size: 10pt;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border-radius: 9999px;
+  margin-bottom: 24px;
+}
+
+.cover-page .cover-title {
+  font-size: 32pt;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #0f172a;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.5px;
+}
+
+.cover-page .cover-subtitle {
+  font-size: 15pt;
+  color: #475569;
+  line-height: 1.4;
+  margin: 0 0 40px 0;
+  max-width: 85%;
+}
+
+.cover-page .cover-meta {
+  margin-top: auto;
+  padding-top: 30px;
+  border-top: 1px solid #e2e8f0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10pt;
+  color: #64748b;
+}
+
+/* Page Break Divider in Preview */
+.page-break {
+  page-break-after: always;
+  break-after: page;
+  position: relative;
+  height: 24px;
+  margin: 32px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-break::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  border-top: 2px dashed #cbd5e1;
+}
+
+.page-break::after {
+  content: "✂ PAGE BREAK";
+  position: relative;
+  background: #ffffff;
+  padding: 2px 10px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 1px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+}
+
+/* Table of Contents auto-styling */
+.toc-container {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 24px 0 36px 0;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.toc-title {
+  font-size: 13pt;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toc-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.toc-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 4px 0;
+  font-size: 10pt;
+}
+.toc-item.level-1 { font-weight: 600; color: #1e293b; margin-top: 4px; }
+.toc-item.level-2 { padding-left: 18px; color: #475569; }
+.toc-item.level-3 { padding-left: 36px; color: #64748b; font-size: 9.5pt; }
+
+.toc-item a {
+  text-decoration: none;
+  color: inherit;
+  flex: 1;
+}
+.toc-item a:hover {
+  color: #4f46e5;
+}
+.toc-item .toc-dots {
+  flex: 1;
+  margin: 0 8px;
+  border-bottom: 1px dotted #cbd5e1;
+  height: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   Print Rules (@media print)
+   Critical for producing pristine, exact-scale, vector PDFs
+   -------------------------------------------------------------------------- */
+@media print {
+  @page {
+    size: auto;
+    margin: 0;
+  }
+
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide app chrome during print */
+  .app-header,
+  .editor-pane,
+  .pane-resizer,
+  .settings-panel,
+  .preview-toolbar,
+  .status-bar,
+  .modal-overlay,
+  .toast-container,
+  .no-print {
+    display: none !important;
+  }
+
+  .app-main {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .preview-pane {
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+  }
+
+  .preview-stage {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: none !important;
+    overflow: visible !important;
+  }
+
+  .preview-scaler {
+    transform: none !important;
+  }
+
+  .paper-document {
+    width: 100% !important;
+    min-height: auto !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    background: #ffffff !important;
+    page-break-after: avoid;
+  }
+
+  .document-header,
+  .document-footer {
+    display: flex !important;
+  }
+
+  .page-break {
+    page-break-after: always !important;
+    break-after: page !important;
+    height: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+  }
+  .page-break::before,
+  .page-break::after {
+    display: none !important;
+  }
+
+  /* Orphan / Widow & element break controls */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  pre, blockquote, table, figure, .mermaid, .math-block, .callout {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Ensure links are readable */
+  a {
+    color: inherit !important;
+    text-decoration: underline;
+  }
+}

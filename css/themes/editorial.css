@@ -1,0 +1,131 @@
+/* ==========================================================================
+   Theme: Editorial Book (Literary, Longform Reading, Publications)
+   ========================================================================== */
+
+.theme-editorial {
+  font-family: 'Georgia', 'Palatino', serif;
+  color: #292524;
+  line-height: 1.8;
+}
+
+.theme-editorial h1,
+.theme-editorial h2,
+.theme-editorial h3 {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  color: #1c1917;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-top: 1.8em;
+  margin-bottom: 0.6em;
+}
+
+.theme-editorial h1 {
+  font-size: 26pt;
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 1.2em;
+}
+
+.theme-editorial h2 {
+  font-size: 17pt;
+  border-bottom: 1px solid #e7e5e4;
+  padding-bottom: 6px;
+}
+
+.theme-editorial h3 {
+  font-size: 13.5pt;
+  font-style: italic;
+}
+
+.theme-editorial p {
+  margin: 1em 0;
+}
+
+.theme-editorial a {
+  color: #991b1b;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Editorial Blockquote */
+.theme-editorial blockquote {
+  margin: 2em 1.5em;
+  padding: 12px 24px;
+  border-left: 3px solid #78716c;
+  font-size: 1.1em;
+  font-style: italic;
+  color: #44403c;
+}
+
+.theme-editorial .callout {
+  margin: 1.6em 0;
+  padding: 16px 20px;
+  background: #fafaf9;
+  border: 1px solid #e7e5e4;
+  border-left: 4px solid #78716c;
+}
+.theme-editorial .callout-header {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 10pt;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #44403c;
+  margin-bottom: 6px;
+}
+
+/* Table */
+.theme-editorial table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.8em 0;
+  font-size: 9.5pt;
+}
+
+.theme-editorial th {
+  border-bottom: 2px solid #44403c;
+  padding: 8px 12px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.theme-editorial td {
+  border-bottom: 1px solid #e7e5e4;
+  padding: 8px 12px;
+}
+
+.theme-editorial code:not(pre code) {
+  font-family: 'Consolas', monospace;
+  font-size: 0.88em;
+  background: #f5f5f4;
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+.theme-editorial pre {
+  background: #292524;
+  color: #fafaf9;
+  padding: 14px 18px;
+  border-radius: 4px;
+  font-family: 'Consolas', monospace;
+  font-size: 8.5pt;
+  margin: 1.4em 0;
+  overflow-x: auto;
+}
+
+.theme-editorial hr {
+  border: none;
+  text-align: center;
+  margin: 2.5em 0;
+  height: 1px;
+  background: #d6d3d1;
+}
+
+.theme-editorial .mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.5em 0;
+  padding: 14px;
+  border: 1px solid #e7e5e4;
+  background: #fafaf9;
+}

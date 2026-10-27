@@ -1,0 +1,25 @@
+{
+  "name": "mdf-markdown-to-pdf",
+  "version": "1.0.0",
+  "description": "Easy-to-use, gorgeous Markdown to PDF converter with live preview, themes, math, diagrams, and CLI support.",
+  "main": "server.js",
+  "bin": {
+    "mdf": "./cli.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "cli": "node cli.js"
+  },
+  "keywords": [
+    "markdown",
+    "pdf",
+    "converter",
+    "katex",
+    "mermaid",
+    "prism",
+    "cli"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}

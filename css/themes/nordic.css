@@ -1,0 +1,166 @@
+/* ==========================================================================
+   Theme: Nordic Frost (Scandinavian Minimalist, Cool Arctic & Pine)
+   ========================================================================== */
+
+.theme-nordic {
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+  color: #1e293b;
+  line-height: 1.7;
+}
+
+.theme-nordic h1,
+.theme-nordic h2,
+.theme-nordic h3,
+.theme-nordic h4 {
+  color: #0f2744;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 1.8em;
+  margin-bottom: 0.6em;
+}
+
+.theme-nordic h1 {
+  font-size: 25pt;
+  color: #0284c7;
+  padding-bottom: 8px;
+  position: relative;
+}
+
+.theme-nordic h1::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: #38bdf8;
+  border-radius: 2px;
+  margin-top: 8px;
+}
+
+.theme-nordic h2 {
+  font-size: 17pt;
+  color: #0369a1;
+}
+
+.theme-nordic h3 {
+  font-size: 13.5pt;
+  color: #0f2744;
+}
+
+.theme-nordic p {
+  margin: 0.9em 0;
+}
+
+.theme-nordic a {
+  color: #0284c7;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px dotted #38bdf8;
+}
+
+/* Callouts in Soft Arctic Pastel */
+.theme-nordic .callout {
+  margin: 1.5em 0;
+  padding: 16px 20px;
+  border-radius: 10px;
+  border: 1px solid #e0f2fe;
+  background: #f0f9ff;
+  border-left: 4px solid #0284c7;
+}
+
+.theme-nordic .callout-header {
+  font-weight: 700;
+  font-size: 9.5pt;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #0369a1;
+  margin-bottom: 6px;
+}
+
+.theme-nordic .callout-tip {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  border-left-color: #10b981;
+}
+.theme-nordic .callout-tip .callout-header { color: #047857; }
+
+.theme-nordic .callout-warning {
+  background: #fffbeb;
+  border-color: #fde68a;
+  border-left-color: #f59e0b;
+}
+.theme-nordic .callout-warning .callout-header { color: #b45309; }
+
+.theme-nordic .callout-caution {
+  background: #fef2f2;
+  border-color: #fecaca;
+  border-left-color: #ef4444;
+}
+.theme-nordic .callout-caution .callout-header { color: #b91c1c; }
+
+/* Table */
+.theme-nordic table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.6em 0;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+}
+
+.theme-nordic th {
+  background: #f0f9ff;
+  color: #0369a1;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-bottom: 2px solid #bae6fd;
+  text-align: left;
+}
+
+.theme-nordic td {
+  padding: 9px 14px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.theme-nordic tr:nth-child(even) td {
+  background-color: #f8fafc;
+}
+
+/* Code */
+.theme-nordic code:not(pre code) {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.88em;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+}
+
+.theme-nordic pre {
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 16px 20px;
+  border-radius: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9pt;
+  margin: 1.4em 0;
+  overflow-x: auto;
+  border: 1px solid #1e293b;
+}
+
+.theme-nordic hr {
+  border: none;
+  height: 1px;
+  background: #e2e8f0;
+  margin: 2.2em 0;
+}
+
+.theme-nordic .mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.6em 0;
+  padding: 16px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}

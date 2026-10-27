@@ -1,0 +1,149 @@
+/* ==========================================================================
+   Theme: Warm Botanical (Earthy Sage, Forest Pine & Terracotta)
+   ========================================================================== */
+
+.theme-botanical {
+  background-color: #fbfaf7;
+  font-family: 'Merriweather', 'Georgia', serif;
+  color: #292524;
+  line-height: 1.75;
+}
+
+.theme-botanical h1,
+.theme-botanical h2,
+.theme-botanical h3,
+.theme-botanical h4 {
+  font-family: 'Playfair Display', 'Merriweather', serif;
+  color: #1c3527;
+  font-weight: 700;
+  line-height: 1.28;
+  margin-top: 1.8em;
+  margin-bottom: 0.6em;
+}
+
+.theme-botanical h1 {
+  font-size: 25pt;
+  color: #1e3a2b;
+  border-bottom: 2px solid #a7f3d0;
+  padding-bottom: 8px;
+}
+
+.theme-botanical h2 {
+  font-size: 17pt;
+  color: #2d5a3f;
+  border-left: 3px solid #059669;
+  padding-left: 10px;
+}
+
+.theme-botanical h3 {
+  font-size: 13.5pt;
+  color: #9a3412; /* Terracotta accent */
+}
+
+.theme-botanical p {
+  margin: 0.9em 0;
+}
+
+.theme-botanical a {
+  color: #047857;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Callouts in Earthy Botanical tones */
+.theme-botanical .callout {
+  margin: 1.5em 0;
+  padding: 16px 20px;
+  border-radius: 8px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-left: 4px solid #16a34a;
+}
+
+.theme-botanical .callout-header {
+  font-weight: 700;
+  font-size: 9.5pt;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #166534;
+  margin-bottom: 5px;
+}
+
+.theme-botanical .callout-warning {
+  background: #fffbeb;
+  border-color: #fde68a;
+  border-left-color: #d97706;
+}
+.theme-botanical .callout-warning .callout-header { color: #92400e; }
+
+.theme-botanical .callout-caution {
+  background: #fff7ed;
+  border-color: #fed7aa;
+  border-left-color: #ea580c;
+}
+.theme-botanical .callout-caution .callout-header { color: #9a3412; }
+
+/* Table */
+.theme-botanical table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.6em 0;
+  border: 1px solid #d1d5db;
+  font-size: 9.5pt;
+}
+
+.theme-botanical th {
+  background: #1e3a2b;
+  color: #f0fdf4;
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.theme-botanical td {
+  padding: 8px 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.theme-botanical tr:nth-child(even) td {
+  background-color: #f7f6f2;
+}
+
+/* Code */
+.theme-botanical code:not(pre code) {
+  background: #eef2eb;
+  color: #1e3a2b;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88em;
+  border: 1px solid #dce4d6;
+}
+
+.theme-botanical pre {
+  background: #1e2820;
+  color: #f2f5f0;
+  padding: 14px 18px;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9pt;
+  margin: 1.4em 0;
+  overflow-x: auto;
+}
+
+.theme-botanical hr {
+  border: none;
+  height: 1px;
+  background: #cbd5e1;
+  margin: 2.2em 0;
+}
+
+.theme-botanical .mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.5em 0;
+  padding: 14px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}

@@ -1,0 +1,158 @@
+/* ==========================================================================
+   Theme: Executive Slate (Corporate Reports, Proposals, Business Strategy)
+   ========================================================================== */
+
+.theme-executive {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #1e293b;
+  line-height: 1.65;
+}
+
+.theme-executive h1,
+.theme-executive h2,
+.theme-executive h3,
+.theme-executive h4 {
+  color: #0f172a;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-top: 1.7em;
+  margin-bottom: 0.5em;
+  letter-spacing: -0.015em;
+}
+
+.theme-executive h1 {
+  font-size: 24pt;
+  color: #1e3a8a;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.theme-executive h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: #2563eb;
+  border-radius: 2px;
+}
+
+.theme-executive h2 {
+  font-size: 16pt;
+  color: #0f172a;
+  padding-left: 10px;
+  border-left: 4px solid #3b82f6;
+  margin-top: 1.6em;
+}
+
+.theme-executive h3 {
+  font-size: 13pt;
+  color: #1e293b;
+}
+
+.theme-executive p {
+  margin: 0.8em 0;
+}
+
+.theme-executive a {
+  color: #1d4ed8;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Corporate Callout */
+.theme-executive .callout {
+  margin: 1.4em 0;
+  padding: 16px 20px;
+  border-radius: 6px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-left: 5px solid #1e3a8a;
+}
+
+.theme-executive .callout-header {
+  font-weight: 700;
+  font-size: 9pt;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #1e3a8a;
+  margin-bottom: 4px;
+}
+
+.theme-executive blockquote:not(.callout) {
+  margin: 1.4em 0;
+  padding: 14px 20px;
+  background: #f1f5f9;
+  border-left: 4px solid #475569;
+  font-style: italic;
+  color: #334155;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Executive Tables */
+.theme-executive table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  font-size: 9.5pt;
+  border: 1px solid #cbd5e1;
+}
+
+.theme-executive th {
+  background: #1e3a8a;
+  color: #ffffff;
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 14px;
+  letter-spacing: 0.3px;
+}
+
+.theme-executive td {
+  padding: 9px 14px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #334155;
+}
+
+.theme-executive tr:nth-child(even) td {
+  background: #f8fafc;
+}
+
+/* Code */
+.theme-executive code:not(pre code) {
+  background: #f1f5f9;
+  color: #0f172a;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 0.88em;
+  font-family: 'Consolas', monospace;
+  border: 1px solid #e2e8f0;
+}
+
+.theme-executive pre {
+  background: #1e293b;
+  color: #f1f5f9;
+  padding: 14px 18px;
+  border-radius: 6px;
+  font-family: 'Consolas', monospace;
+  font-size: 9pt;
+  margin: 1.3em 0;
+  overflow-x: auto;
+}
+
+.theme-executive hr {
+  border: none;
+  height: 2px;
+  background: #e2e8f0;
+  margin: 2em 0;
+}
+
+.theme-executive .mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.5em 0;
+  background: #ffffff;
+  padding: 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}

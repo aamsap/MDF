@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MDF Studio - Markdown to PDF Converter</title>
+  <meta name="description" content="Easy-to-use, publication-grade Markdown to PDF converter with live preview, math equations, Mermaid diagrams, syntax highlighting, and themes.">
+
+  <!-- Typography: Inter, JetBrains Mono, Outfit, Merriweather, Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS (Local with CDN fallback) -->
+  <link rel="stylesheet" href="vendor/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css';">
+  <link rel="stylesheet" href="vendor/prism.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css';">
+
+  <!-- Core MDF Stylesheets & Themes -->
+  <link rel="stylesheet" href="css/preview.css">
+  <link rel="stylesheet" href="css/themes/modern.css">
+  <link rel="stylesheet" href="css/themes/academic.css">
+  <link rel="stylesheet" href="css/themes/executive.css">
+  <link rel="stylesheet" href="css/themes/editorial.css">
+  <link rel="stylesheet" href="css/themes/minimalist.css">
+  <link rel="stylesheet" href="css/themes/nordic.css">
+  <link rel="stylesheet" href="css/themes/cyberpunk.css">
+  <link rel="stylesheet" href="css/themes/botanical.css">
+  <link rel="stylesheet" href="css/themes/retro.css">
+  <link rel="stylesheet" href="css/themes/legal.css">
+  <link rel="stylesheet" href="css/themes/creative.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       Top Header Navigation
+       ========================================================================= -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="app-brand" title="MDF Studio: Markdown to PDF">
+        <div class="brand-icon">M</div>
+        <div class="brand-title">
+          <span class="brand-name">MDF Studio</span>
+          <span class="brand-badge">PDF Converter</span>
+        </div>
+      </div>
+
+      <div class="doc-title-wrapper" title="Click to rename document">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
+        <input type="text" id="doc-title-input" class="doc-title-input" value="Comprehensive Feature Showcase" spellcheck="false" placeholder="Document Title...">
+      </div>
+    </div>
+
+    <div class="header-center">
+      <!-- View mode toggles -->
+      <div class="view-modes">
+        <button class="view-btn active" data-mode="split" title="Split Screen (Editor + Live Preview)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="12" y1="3" x2="12" y2="21"></line>
+          </svg>
+          Split
+        </button>
+        <button class="view-btn" data-mode="editor" title="Editor Only">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+          Editor
+        </button>
+        <button class="view-btn" data-mode="preview" title="Paginated Preview Only">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+          Preview
+        </button>
+      </div>
+
+      <!-- Sync scroll indicator -->
+      <button id="sync-scroll-toggle" class="btn btn-secondary active" title="Toggle Synchronized Scrolling" style="padding: 5px 8px; font-size: 11.5px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="17 1 21 5 17 9"></polyline>
+          <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+          <polyline points="7 23 3 19 7 15"></polyline>
+          <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+        </svg>
+        Sync Scroll
+      </button>
+
+      <!-- Stats Pill -->
+      <div id="doc-stats" class="doc-stats-pill">
+        <span>Calculating...</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <!-- Templates Modal trigger -->
+      <button id="templates-btn" class="btn btn-secondary" title="Browse Document Templates">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+        <span class="btn-label-responsive">Templates</span>
+      </button>
+
+      <!-- Import Markdown file -->
+      <button id="import-file-btn" class="btn btn-secondary" title="Open Markdown File (.md)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span class="btn-label-responsive">Import</span>
+      </button>
+      <input type="file" id="hidden-file-input" accept=".md,.markdown,.txt" style="display: none;">
+
+      <!-- Settings Drawer Toggle -->
+      <button id="settings-toggle-btn" class="btn btn-secondary" title="Document & Page Formatting">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        <span class="btn-label-responsive">Format</span>
+      </button>
+
+      <!-- Primary Export Button Group -->
+      <div class="export-btn-group">
+        <button id="primary-export-btn" class="btn btn-primary" title="Export Vector PDF via Print (Ctrl+P)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          Export PDF
+        </button>
+        <button id="export-dropdown-trigger" class="export-dropdown-trigger" title="More Export Options">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Export Dropdown Menu -->
+      <div id="export-dropdown" class="dropdown-menu">
+        <button class="dropdown-item export-action" data-export="vector-print">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          <div class="dropdown-item-desc">
+            <span class="dropdown-item-title">Vector PDF (Recommended)</span>
+            <span class="dropdown-item-sub">Crisp text, selectable, exact @page print (Ctrl+P)</span>
+          </div>
+        </button>
+
+        <button class="dropdown-item export-action" data-export="direct-pdf">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <div class="dropdown-item-desc">
+            <span class="dropdown-item-title">Direct PDF Download</span>
+            <span class="dropdown-item-sub">One-click silent file download (html2pdf)</span>
+          </div>
+        </button>
+
+        <div class="dropdown-divider"></div>
+
+        <button class="dropdown-item export-action" data-export="export-html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+          <div class="dropdown-item-desc">
+            <span class="dropdown-item-title">Export Standalone HTML</span>
+            <span class="dropdown-item-sub">Self-contained styled file with math and themes</span>
+          </div>
+        </button>
+
+        <button class="dropdown-item export-action" data-export="copy-html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <div class="dropdown-item-desc">
+            <span class="dropdown-item-title">Copy Formatted HTML</span>
+            <span class="dropdown-item-sub">Copy generated markup to clipboard</span>
+          </div>
+        </button>
+
+        <div class="dropdown-divider"></div>
+
+        <button class="dropdown-item export-action" data-export="shortcuts">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <div class="dropdown-item-desc">
+            <span class="dropdown-item-title">Keyboard Shortcuts</span>
+            <span class="dropdown-item-sub">View formatting & navigation keys (Ctrl+/)</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       Main Workspace
+       ========================================================================= -->
+  <main id="app-main" class="app-main">
+    
+    <!-- Left Pane: Markdown Editor -->
+    <section id="editor-pane" class="editor-pane">
+      
+      <!-- Formatting Toolbar -->
+      <div id="editor-toolbar" class="editor-toolbar">
+        <div class="tool-group">
+          <button class="tool-btn" data-action="h1" title="Heading 1 (#)">H1</button>
+          <button class="tool-btn" data-action="h2" title="Heading 2 (##)">H2</button>
+          <button class="tool-btn" data-action="h3" title="Heading 3 (###)">H3</button>
+        </div>
+
+        <div class="tool-group">
+          <button class="tool-btn" data-action="bold" title="Bold (**text**)"><strong>B</strong></button>
+          <button class="tool-btn" data-action="italic" title="Italic (*text*)"><em>I</em></button>
+          <button class="tool-btn" data-action="strike" title="Strikethrough (~~text~~)"><s>S</s></button>
+        </div>
+
+        <div class="tool-group">
+          <button class="tool-btn" data-action="code" title="Inline Code (`code`)">&lt;/&gt;</button>
+          <button class="tool-btn" data-action="code-block" title="Code Block (```)">{ }</button>
+          <button class="tool-btn" data-action="quote" title="Blockquote (>)">”</button>
+        </div>
+
+        <div class="tool-group">
+          <button class="tool-btn" data-action="ul" title="Bullet List (-)">•☰</button>
+          <button class="tool-btn" data-action="ol" title="Numbered List (1.)">1.☰</button>
+          <button class="tool-btn" data-action="task" title="Task List (- [ ])">☑</button>
+          <button class="tool-btn" data-action="table" title="Insert Table">⊞</button>
+        </div>
+
+        <div class="tool-group">
+          <button class="tool-btn" data-action="math" title="KaTeX Math Formula ($E=mc^2$)">∑</button>
+          <button class="tool-btn" data-action="mermaid" title="Mermaid Diagram">🔀</button>
+          <button class="tool-btn" data-action="callout" title="Alert Callout (> [!NOTE])">💡</button>
+          <button class="tool-btn" data-action="page-break" title="Page Break (---page-break---)">✂</button>
+        </div>
+
+        <div class="tool-group">
+          <button class="tool-btn" data-action="link" title="Hyperlink [text](url)">🔗</button>
+          <button class="tool-btn" data-action="image" title="Image (Drop or Paste image directly!)">🖼️</button>
+        </div>
+      </div>
+
+      <!-- Editor Textarea & Line Numbers -->
+      <div class="editor-container">
+        <div id="line-numbers" class="line-numbers">1</div>
+        <textarea id="markdown-input" class="markdown-input" spellcheck="false" placeholder="Write or paste your Markdown here... You can also drop images directly!"></textarea>
+      </div>
+
+      <!-- Drag & Drop Overlay -->
+      <div id="dropzone-overlay" class="dropzone-overlay">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <div style="font-size: 15px; font-weight: 600; color: #ffffff;">Drop Markdown or Image File Here</div>
+        <div style="font-size: 12px; color: #94a3b8;">Markdown will load instantly. Images are embedded as base64.</div>
+      </div>
+    </section>
+
+    <!-- Pane Resizer Handle -->
+    <div id="pane-resizer" class="pane-resizer" title="Drag to resize panes"></div>
+
+    <!-- Right Pane: Live Paginated Preview -->
+    <section id="preview-pane" class="preview-pane">
+      
+      <!-- Preview Toolbar -->
+      <div class="preview-toolbar">
+        <div class="preview-tools-left">
+          <div class="scale-control">
+            <button id="zoom-out-btn" class="scale-btn" title="Zoom Out">−</button>
+            <span id="zoom-value" class="scale-value">100%</span>
+            <button id="zoom-in-btn" class="scale-btn" title="Zoom In">+</button>
+            <button id="zoom-reset-btn" class="scale-btn" title="Reset Zoom (100%)" style="font-size: 10px; padding: 0 4px; width: auto;">Fit</button>
+          </div>
+        </div>
+
+        <div class="preview-tools-right">
+          <!-- Quick theme badge -->
+          <div id="theme-indicator-badge" class="theme-indicator-badge" title="Click to change Theme in Format Panel">
+            <span>🎨</span>
+            <span id="theme-indicator-text">Modern Tech</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Realistic Paper Canvas Stage -->
+      <div id="preview-stage" class="preview-stage">
+        <div id="preview-scaler" class="preview-scaler">
+          
+          <!-- Simulated Physical Paper Sheet -->
+          <article id="paper-doc" class="paper-document theme-modern" data-paper-size="a4" data-orientation="portrait" data-margins="normal">
+            
+            <!-- Running Header -->
+            <header id="document-header" class="document-header has-border">
+              <div id="header-left" class="header-left">Comprehensive Feature Showcase</div>
+              <div id="header-right" class="header-right">October 2026</div>
+            </header>
+
+            <!-- Optional Cover Page -->
+            <div id="cover-page-container"></div>
+
+            <!-- Main Rendered Markdown Body -->
+            <div id="document-content" class="document-content">
+              <!-- Rendered Markdown HTML goes here -->
+            </div>
+
+            <!-- Running Footer -->
+            <footer id="document-footer" class="document-footer has-border">
+              <div id="footer-left" class="footer-left">MDF Studio Generated</div>
+              <div id="footer-right" class="footer-right">Page 1</div>
+            </footer>
+
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         Settings / Formatting Drawer Panel
+         ======================================================================= -->
+    <aside id="settings-panel" class="settings-panel closed">
+      <div class="settings-header">
+        <span>Document & Page Setup</span>
+        <button id="close-panel-btn" class="close-panel-btn" title="Close Panel">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="settings-body">
+        
+        <!-- Section: Themes -->
+        <div class="settings-section">
+          <div class="section-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"></path>
+            </svg>
+            Design Theme
+          </div>
+          <div class="theme-grid">
+            <div class="theme-card active" data-theme="modern">
+              <div class="theme-card-name">Modern Tech</div>
+              <div class="theme-card-desc">Clean Inter sans-serif with vibrant accents</div>
+            </div>
+            <div class="theme-card" data-theme="academic">
+              <div class="theme-card-name">Academic</div>
+              <div class="theme-card-desc">Formal Merriweather serif, IEEE booktabs</div>
+            </div>
+            <div class="theme-card" data-theme="executive">
+              <div class="theme-card-name">Executive</div>
+              <div class="theme-card-desc">Corporate navy accents & structured tables</div>
+            </div>
+            <div class="theme-card" data-theme="editorial">
+              <div class="theme-card-name">Editorial</div>
+              <div class="theme-card-desc">Literary Playfair serif, generous reading measure</div>
+            </div>
+            <div class="theme-card" data-theme="minimalist">
+              <div class="theme-card-name">Minimalist</div>
+              <div class="theme-card-desc">Swiss monochrome Bauhaus grid hierarchy</div>
+            </div>
+            <div class="theme-card" data-theme="nordic">
+              <div class="theme-card-name">Nordic Frost</div>
+              <div class="theme-card-desc">Scandinavian cool Arctic blues & frosted slate</div>
+            </div>
+            <div class="theme-card" data-theme="cyberpunk">
+              <div class="theme-card-name">Cyber Dark</div>
+              <div class="theme-card-desc">Futuristic obsidian deck with neon cyan/violet</div>
+            </div>
+            <div class="theme-card" data-theme="botanical">
+              <div class="theme-card-name">Warm Botanical</div>
+              <div class="theme-card-desc">Earthy sage, forest pine & terracotta accents</div>
+            </div>
+            <div class="theme-card" data-theme="retro">
+              <div class="theme-card-name">Retro Typewriter</div>
+              <div class="theme-card-desc">Vintage monospace mechanical manuscript</div>
+            </div>
+            <div class="theme-card" data-theme="legal">
+              <div class="theme-card-name">Legal Brief</div>
+              <div class="theme-card-desc">Formal jurisprudence, agreements & governance</div>
+            </div>
+            <div class="theme-card" data-theme="creative">
+              <div class="theme-card-name">Creative Studio</div>
+              <div class="theme-card-desc">Bold gradients, sunset coral & electric violet</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Page Setup -->
+        <div class="settings-section">
+          <div class="section-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+            Page Geometry
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="setting-paper-size">Paper Size</label>
+            <select id="setting-paper-size" class="form-control">
+              <option value="a4" selected>A4 (210 × 297 mm)</option>
+              <option value="letter">US Letter (8.5 × 11 in)</option>
+              <option value="legal">US Legal (8.5 × 14 in)</option>
+              <option value="a5">A5 (148 × 210 mm)</option>
+              <option value="a3">A3 (297 × 420 mm)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="setting-orientation">Orientation</label>
+            <select id="setting-orientation" class="form-control">
+              <option value="portrait" selected>Portrait (Vertical)</option>
+              <option value="landscape">Landscape (Horizontal)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="setting-margins">Page Margins</label>
+            <select id="setting-margins" class="form-control">
+              <option value="normal" selected>Normal (20 mm)</option>
+              <option value="compact">Compact (12 mm)</option>
+              <option value="spacious">Spacious (28 mm)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Section: Typography -->
+        <div class="settings-section">
+          <div class="section-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="4 7 4 4 20 4 20 7"></polyline>
+              <line x1="9" y1="20" x2="15" y2="20"></line>
+              <line x1="12" y1="4" x2="12" y2="20"></line>
+            </svg>
+            Typography Controls
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="setting-font-family">Font Family</label>
+            <select id="setting-font-family" class="form-control">
+              <option value="'Inter', sans-serif" selected>Inter (Modern Sans)</option>
+              <option value="'Plus Jakarta Sans', sans-serif">Plus Jakarta Sans (Nordic Clean)</option>
+              <option value="'Merriweather', serif">Merriweather (Academic Serif)</option>
+              <option value="'EB Garamond', serif">EB Garamond (Legal / Classic)</option>
+              <option value="'Outfit', sans-serif">Outfit (Editorial Sans)</option>
+              <option value="'Playfair Display', serif">Playfair Display (Literary)</option>
+              <option value="'JetBrains Mono', monospace">JetBrains Mono (Technical)</option>
+              <option value="'Courier Prime', monospace">Courier Prime (Retro Typewriter)</option>
+              <option value="Georgia, serif">Georgia (Classic Book)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span>Base Font Size</span>
+              <span id="font-size-val" class="range-val">11pt</span>
+            </label>
+            <div class="range-slider-wrapper">
+              <input type="range" id="setting-font-size" class="range-slider" min="9" max="16" step="0.5" value="11">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span>Line Height</span>
+              <span id="line-height-val" class="range-val">1.65</span>
+            </label>
+            <div class="range-slider-wrapper">
+              <input type="range" id="setting-line-height" class="range-slider" min="1.2" max="2.2" step="0.05" value="1.65">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="setting-text-align">Text Alignment</label>
+            <select id="setting-text-align" class="form-control">
+              <option value="left" selected>Left Aligned</option>
+              <option value="justify">Justified (Newspaper/Academic)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Section: Running Headers & Footers -->
+        <div class="settings-section">
+          <div class="section-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="3" y1="9" x2="21" y2="9"></line>
+              <line x1="3" y1="15" x2="21" y2="15"></line>
+            </svg>
+            Headers & Footers
+          </div>
+
+          <div class="toggle-group">
+            <span class="form-label">Include Running Header</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="setting-include-header" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="setting-header-left">Header Left</label>
+            <input type="text" id="setting-header-left" class="form-control" value="Document Title">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="setting-header-right">Header Right</label>
+            <input type="text" id="setting-header-right" class="form-control" value="Date / Author">
+          </div>
+
+          <div class="toggle-group" style="margin-top: 10px;">
+            <span class="form-label">Include Running Footer</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="setting-include-footer" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="setting-footer-left">Footer Left</label>
+            <input type="text" id="setting-footer-left" class="form-control" value="MDF Studio Generated">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="setting-footer-right">Footer Right</label>
+            <input type="text" id="setting-footer-right" class="form-control" value="Page 1">
+          </div>
+        </div>
+
+        <!-- Section: Cover Page -->
+        <div class="settings-section">
+          <div class="section-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+              <line x1="8" y1="6" x2="16" y2="6"></line>
+              <line x1="8" y1="10" x2="16" y2="10"></line>
+            </svg>
+            Cover Page Generator
+          </div>
+
+          <div class="toggle-group">
+            <span class="form-label">Generate Front Cover Page</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="setting-include-cover">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div id="cover-fields-group" style="display: none; flex-direction: column; gap: 8px;">
+            <div class="form-group">
+              <label class="form-label" for="setting-cover-title">Cover Title</label>
+              <input type="text" id="setting-cover-title" class="form-control" value="Project Documentation">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="setting-cover-subtitle">Cover Subtitle</label>
+              <input type="text" id="setting-cover-subtitle" class="form-control" value="Technical Overview & System Architecture">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="setting-cover-author">Author / Org</label>
+              <input type="text" id="setting-cover-author" class="form-control" value="Engineering Team">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- =========================================================================
+       Modals
+       ========================================================================= -->
+
+  <!-- Templates Modal -->
+  <div id="template-modal" class="modal-overlay">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span class="modal-title">Select a Document Template</span>
+        <button class="modal-close" title="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-content">
+        <div id="template-list" class="template-card-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyboard Shortcuts Modal -->
+  <div id="shortcuts-modal" class="modal-overlay">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span class="modal-title">Keyboard Shortcuts</span>
+        <button class="modal-close" title="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-content">
+        <div class="shortcut-row">
+          <span>Export Vector PDF (Print Dialog)</span>
+          <span class="shortcut-key">Ctrl + P / ⌘ + P</span>
+        </div>
+        <div class="shortcut-row">
+          <span>Direct PDF Download</span>
+          <span class="shortcut-key">Ctrl + S / ⌘ + S</span>
+        </div>
+        <div class="shortcut-row">
+          <span>Bold Selected Text</span>
+          <span class="shortcut-key">Ctrl + B / ⌘ + B</span>
+        </div>
+        <div class="shortcut-row">
+          <span>Italic Selected Text</span>
+          <span class="shortcut-key">Ctrl + I / ⌘ + I</span>
+        </div>
+        <div class="shortcut-row">
+          <span>Insert Page Break</span>
+          <span class="shortcut-key">---page-break---</span>
+        </div>
+        <div class="shortcut-row">
+          <span>Paste Image from Clipboard</span>
+          <span class="shortcut-key">Ctrl + V / ⌘ + V</span>
+        </div>
+        <div class="shortcut-row">
+          <span>View Shortcuts Cheat Sheet</span>
+          <span class="shortcut-key">Ctrl + / / ⌘ + /</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Container for Toast Notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- =========================================================================
+       Scripts: Vendors (Local with CDN fallback) + App Modules
+       ========================================================================= -->
+  <script src="vendor/marked.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/marked/marked.min.js';"></script>
+  <script src="vendor/prism.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js';"></script>
+  <script src="vendor/prism-python.min.js"></script>
+  <script src="vendor/prism-javascript.min.js"></script>
+  <script src="vendor/prism-typescript.min.js"></script>
+  <script src="vendor/prism-json.min.js"></script>
+  <script src="vendor/prism-bash.min.js"></script>
+  <script src="vendor/prism-markdown.min.js"></script>
+  <script src="vendor/katex.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js';"></script>
+  <script src="vendor/mermaid.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js';"></script>
+  <script src="vendor/html2pdf.bundle.min.js" onerror="this.onerror=null;this.src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';"></script>
+
+  <!-- Application Modules -->
+  <script src="js/parser.js"></script>
+  <script src="js/templates.js"></script>
+  <script src="js/pdf-export.js"></script>
+  <script src="js/ui-controls.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

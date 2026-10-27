@@ -1,0 +1,173 @@
+/* ==========================================================================
+   Theme: Cyber Dark Deck (Futuristic Obsidian & Neon Cyan/Violet)
+   ========================================================================== */
+
+.theme-cyberpunk {
+  background-color: #0d111a !important;
+  color: #e2e8f0;
+  font-family: 'JetBrains Mono', 'Inter', monospace;
+  line-height: 1.65;
+}
+
+.theme-cyberpunk .document-header,
+.theme-cyberpunk .document-footer {
+  color: #64748b !important;
+}
+
+.theme-cyberpunk .document-header.has-border,
+.theme-cyberpunk .document-footer.has-border {
+  border-color: #1e293b !important;
+}
+
+.theme-cyberpunk h1,
+.theme-cyberpunk h2,
+.theme-cyberpunk h3,
+.theme-cyberpunk h4 {
+  color: #f8fafc;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-top: 1.8em;
+  margin-bottom: 0.6em;
+}
+
+.theme-cyberpunk h1 {
+  font-size: 24pt;
+  color: #38bdf8;
+  border-bottom: 2px solid #0284c7;
+  padding-bottom: 6px;
+  text-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+}
+
+.theme-cyberpunk h2 {
+  font-size: 16pt;
+  color: #c084fc;
+  border-left: 3px solid #a855f7;
+  padding-left: 10px;
+}
+
+.theme-cyberpunk h3 {
+  font-size: 12.5pt;
+  color: #2dd4bf;
+}
+
+.theme-cyberpunk p {
+  margin: 0.85em 0;
+  color: #cbd5e1;
+}
+
+.theme-cyberpunk a {
+  color: #38bdf8;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Callouts in Cyberpunk Neon */
+.theme-cyberpunk .callout {
+  margin: 1.5em 0;
+  padding: 14px 18px;
+  border-radius: 6px;
+  background: #111827;
+  border: 1px solid #1f293d;
+  border-left: 4px solid #38bdf8;
+}
+
+.theme-cyberpunk .callout-header {
+  font-weight: 700;
+  font-size: 9pt;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #38bdf8;
+  margin-bottom: 4px;
+}
+
+.theme-cyberpunk .callout-tip {
+  border-left-color: #10b981;
+  background: #062419;
+}
+.theme-cyberpunk .callout-tip .callout-header { color: #34d399; }
+
+.theme-cyberpunk .callout-warning {
+  border-left-color: #f59e0b;
+  background: #2a1804;
+}
+.theme-cyberpunk .callout-warning .callout-header { color: #fbbf24; }
+
+.theme-cyberpunk .callout-caution {
+  border-left-color: #f43f5e;
+  background: #2a0b12;
+}
+.theme-cyberpunk .callout-caution .callout-header { color: #fb7185; }
+
+/* Table */
+.theme-cyberpunk table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.6em 0;
+  font-size: 9pt;
+  border: 1px solid #1e293b;
+}
+
+.theme-cyberpunk th {
+  background: #161e2e;
+  color: #38bdf8;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 2px solid #0284c7;
+}
+
+.theme-cyberpunk td {
+  padding: 8px 14px;
+  border-bottom: 1px solid #1e293b;
+  color: #cbd5e1;
+}
+
+.theme-cyberpunk tr:nth-child(even) td {
+  background-color: #101726;
+}
+
+/* Code */
+.theme-cyberpunk code:not(pre code) {
+  background: #1e293b;
+  color: #38bdf8;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid #334155;
+  font-size: 0.9em;
+}
+
+.theme-cyberpunk pre {
+  background: #06090f;
+  color: #f8fafc;
+  padding: 14px 18px;
+  border-radius: 6px;
+  border: 1px solid #1e293b;
+  margin: 1.4em 0;
+  overflow-x: auto;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.theme-cyberpunk hr {
+  border: none;
+  height: 1px;
+  background: #1e293b;
+  margin: 2em 0;
+}
+
+.theme-cyberpunk .mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.5em 0;
+  padding: 14px;
+  background: #111827;
+  border: 1px solid #1f293d;
+  border-radius: 6px;
+}
+
+/* In print mode, preserve cyber dark deck canvas */
+@media print {
+  .theme-cyberpunk {
+    background-color: #0d111a !important;
+    color: #e2e8f0 !important;
+  }
+}

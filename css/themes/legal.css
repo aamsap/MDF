@@ -1,0 +1,134 @@
+/* ==========================================================================
+   Theme: Legal Brief & Contract (Formal Jurisprudence, Agreements, Governance)
+   ========================================================================== */
+
+.theme-legal {
+  font-family: 'EB Garamond', 'Times New Roman', Times, serif;
+  color: #111111;
+  line-height: 1.85;
+  text-align: justify;
+}
+
+.theme-legal h1,
+.theme-legal h2,
+.theme-legal h3,
+.theme-legal h4 {
+  font-family: 'Times New Roman', Times, serif;
+  color: #000000;
+  font-weight: 700;
+  text-align: left;
+  margin-top: 2em;
+  margin-bottom: 0.7em;
+}
+
+.theme-legal h1 {
+  font-size: 22pt;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border-bottom: 2px solid #000000;
+  padding-bottom: 8px;
+}
+
+.theme-legal h2 {
+  font-size: 14pt;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #777777;
+  padding-bottom: 3px;
+}
+
+.theme-legal h3 {
+  font-size: 12pt;
+  font-style: italic;
+}
+
+.theme-legal p {
+  margin: 1em 0;
+  text-indent: 2em;
+}
+
+.theme-legal h1 + p,
+.theme-legal h2 + p,
+.theme-legal h3 + p,
+.theme-legal .no-indent {
+  text-indent: 0;
+}
+
+.theme-legal a {
+  color: #800000; /* Deep legal maroon */
+  text-decoration: underline;
+}
+
+/* Formal Legal Callout */
+.theme-legal .callout {
+  margin: 1.6em 0;
+  padding: 14px 20px;
+  border: 1px solid #000000;
+  background: #fdfdfd;
+}
+
+.theme-legal .callout-header {
+  font-family: 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: 9.5pt;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #800000;
+  margin-bottom: 6px;
+}
+
+/* Formal Legal Table */
+.theme-legal table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.8em 0;
+  font-size: 9.5pt;
+  border-top: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+}
+
+.theme-legal th {
+  border-bottom: 1px solid #000000;
+  padding: 8px 12px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.theme-legal td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #dddddd;
+}
+
+.theme-legal code:not(pre code) {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  background: #f5f5f5;
+  padding: 1px 4px;
+  border: 1px solid #cccccc;
+}
+
+.theme-legal pre {
+  background: #fbfbfb;
+  color: #111111;
+  border: 1px solid #888888;
+  padding: 12px 16px;
+  font-family: 'Courier New', monospace;
+  font-size: 8.5pt;
+  margin: 1.4em 0;
+}
+
+.theme-legal hr {
+  border: none;
+  height: 1px;
+  background: #000000;
+  margin: 2.2em 0;
+}
+
+.theme-legal .mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.5em 0;
+  padding: 12px;
+  border: 1px solid #000000;
+}
